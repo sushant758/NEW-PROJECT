@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN PAGE</title>
+    <style>
+        :root {
+            --bg-left: #e0e2e7;
+            --primary: #1a1a1a;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        /* --- Left Side: Animated Characters --- */
+        .visual-side {
+            flex: 1.2;
+            background-color: var(--bg-left);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 80px;
+            position: relative;
+        }
+
+        .character-group {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .character {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: bounce 3s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Character Shapes & Colors */
+        .char-purple { width: 80px; height: 220px; background: #6c47ff; border-radius: 10px; animation-delay: 0.1s; }
+        .char-orange { width: 140px; height: 110px; background: #ff7d33; border-radius: 60px 60px 20px 20px; animation-delay: 0.3s; }
+        .char-black  { width: 70px; height: 180px; background: #1a1a1a; border-radius: 5px; animation-delay: 0.5s; }
+        .char-yellow { width: 90px; height: 130px; background: #ffcc00; border-radius: 30px; animation-delay: 0.7s; }
+
+        /* Face Styling */
+        .face {
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .eyes { display: flex; gap: 12px; }
+        .eye {
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        .pupil {
+            width: 7px;
+            height: 7px;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.1s linear;
+        }
+
+        .mouth {
+            width: 20px;
+            height: 10px;
+            border-bottom: 3px solid rgba(0,0,0,0.6);
+            border-radius: 50%;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        /* --- Interaction States --- */
+        
+        /* 1. Hiding eyes (Password focus) */
+        .character.hiding .eye { height: 2px; background: #333; margin-top: 6px; }
+        .character.hiding .pupil { opacity: 0; }
+
+        /* 2. Success (Smile) */
+        .character.success .mouth {
+            height: 15px;
+            width: 25px;
+            background: #333;
+            border-radius: 0 0 25px 25px;
+            border: none;
+        }
+
+        /* 3. Error (Sad) */
+        .character.error .mouth {
+            border-bottom: none;
+            border-top: 3px solid #333;
+            margin-top: 15px;
+        }
+
+        /* --- Right Side: Login Form --- */
+        .login-side {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 60px;
+        }
+
+        h1 { font-size: 32px; margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 30px; }
+
+        .input-box { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus { border-color: #6c47ff; box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.1); }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #status-msg {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="visual-side">
+        <div class="character-group">
+            <div class="character char-purple">
+                <div class="face"><div class="eyes"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div><div class="mouth"></div></div>
+            </div>
+            <div class="character char-orange">
+                <div class="face"><div class="eyes"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div><div class="mouth"></div></div>
+            </div>
+            <div class="character char-black">
+                <div class="face"><div class="eyes"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div><div class="mouth"></div></div>
+            </div>
+            <div class="character char-yellow">
+                <div class="face"><div class="eyes"><div class="eye"><div class="pupil"></div></div><div class="eye"><div class="pupil"></div></div></div><div class="mouth"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-side">
+        <h1>Welcome back!</h1>
+        <p>Please enter your details</p>
+        
+        <div class="input-box">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+        </div>
+        
+        <div class="input-box">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <button onclick="checkLogin()">Log in</button>
+        <div id="status-msg"></div>
+    </div>
+
+    <script>
+        const pupils = document.querySelectorAll('.pupil');
+        const chars = document.querySelectorAll('.character');
+        const passInput = document.getElementById('password');
+        const statusMsg = document.getElementById('status-msg');
+
+        // Eye Movement Logic
+        document.addEventListener('mousemove', (e) => {
+            pupils.forEach(pupil => {
+                const rect = pupil.getBoundingClientRect();
+                const eyeX = rect.left + rect.width / 2;
+                const eyeY = rect.top + rect.height / 2;
+                
+                const angle = Math.atan2(e.clientX - eyeX, e.clientY - eyeY);
+                const x = Math.sin(angle) * 5;
+                const y = Math.cos(angle) * 5;
+                
+                pupil.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+
+        // "Don't Watch Me" Logic
+        passInput.addEventListener('focus', () => {
+            chars.forEach(c => c.classList.add('hiding'));
+        });
+
+        passInput.addEventListener('blur', () => {
+            chars.forEach(c => c.classList.remove('hiding'));
+        });
+
+        // Login Result Logic
+        function checkLogin() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+
+            // Simple demo check
+            if (email.includes('@') && pass.length > 3) {
+                updateUI("Login Successful!", "success", "#22c55e");
+            } else {
+                updateUI("Invalid credentials", "error", "#ef4444");
+            }
+        }
+
+        function updateUI(text, className, color) {
+            statusMsg.innerText = text;
+            statusMsg.style.color = color;
+            
+            chars.forEach(c => {
+                c.classList.remove('success', 'error');
+                c.classList.add(className);
+            });
+
+            // Revert expressions after 2 seconds
+            setTimeout(() => {
+                chars.forEach(c => c.classList.remove('success', 'error'));
+                statusMsg.innerText = "";
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
+
+<!-- test@me.com pass-1234 -->
